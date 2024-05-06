@@ -1,0 +1,200 @@
+:root {
+  --size-btn: 30px;
+}
+.tx {
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+.tx *:after,
+.tx *:before {
+  box-sizing: border-box;
+}
+.tx > .tx-node {
+  padding-left: 0;
+}
+.tx .tx-nodes {
+  list-style: none;
+  padding-left: var(--size-btn);
+  overflow: hidden;
+  /*transition: height 150ms ease-out, opacity 150ms ease-out;*/
+}
+.tx .tx-node {
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.tx .tx-void {
+  width: var(--size-btn);
+  height: var(--size-btn);
+}
+.tx .tx-void:active{
+    background: rgba(0,0,0, 0.2)
+}
+.tx .tx-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--size-btn);
+  height: var(--size-btn);
+  cursor: pointer;
+  /*transition: transform 150ms ease-out;*/
+}
+.tx .tx-switcher:active{
+    background: rgba(0,0,0, 0.2)
+}
+.tx .tx-switcher:before {
+  display: block;
+  content: ' ';
+  border: 4px solid transparent;
+  border-top: 4px solid rgba(0, 0, 0, 0.4);
+  /*transition: border-color 150ms;*/
+}
+.tx .tx-switcher:hover:before {
+  border-top: 4px solid rgba(0, 0, 0, 0.65);
+}
+.tx .tx-node__close > .tx-header .tx-switcher {
+  transform: rotate(-90deg);
+}
+.tx .tx-node__close > .tx-nodes {
+  height: 0;
+}
+/*.tx .tx-node__close > .tx-nodes > li{
+  display: none;
+}*/
+
+/*.tx .tx-div-checkbox {
+    overflow: hidden;
+}*/
+.tx .tx-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;/*var(--size-btn);*/
+  height: var(--size-btn);
+  cursor: pointer;
+  position: relative;
+  /*background: orange;*/
+}
+.tx .tx-checkbox:before {
+  /*transition: all 0.3s;*/
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  content: ' ';
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}
+.tx .tx-fleet-header .tx-checkbox:before {
+  border-color: #AAA;  
+}
+.tx .tx-checkbox:hover:before {
+  box-shadow: 0 0 2px 1px #1890ff;
+}
+.tx .tx-node__checked > .tx-header .tx-checkbox:before {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+.tx .tx-node__checked > .tx-header .tx-checkbox:after {
+  position: absolute;
+  content: ' ';
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  margin: auto;
+  width: 5px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+.tx .tx-node__halfchecked > .tx-header .tx-checkbox:before {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+.tx .tx-node__halfchecked > .tx-header .tx-checkbox:after {
+  position: absolute;
+  content: ' ';
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 10px;
+  height: 2px;
+  background-color: #fff;
+}
+.tx .tx-node__disabled {
+  cursor: not-allowed;
+  color: rgba(0, 0, 0, 0.25);
+}
+.tx .tx-node__disabled .tx-header .tx-checkbox {
+  cursor: not-allowed;
+}
+.tx .tx-node__disabled .tx-header .tx-checkbox:before {
+  cursor: not-allowed;
+  border-color: #d9d9d9 !important;
+  background-color: #f5f5f5 !important;
+}
+.tx .tx-node__disabled .tx-header .tx-checkbox:hover:before {
+  box-shadow: none !important;
+}
+.tx .tx-node__disabled .tx-node__checked > .tx-header .tx-checkbox:after {
+  border-color: #d9d9d9;
+}
+.tx .tx-node__disabled .tx-node__halfchecked > .tx-header .tx-checkbox:after {
+  background-color: #d9d9d9;
+}
+.tx .tx-node__disabled.tx-node__checked > .tx-header .tx-checkbox:after {
+  border-color: #d9d9d9;
+}
+.tx .tx-node__disabled.tx-node__halfchecked > .tx-header .tx-checkbox:after {
+  background-color: #d9d9d9;
+}
+.tx .tx-label {
+  vertical-align: middle;
+  line-height: var(--size-btn);
+}
+
+.tx .tx-node__hover {
+    background: lime;
+}
+.tx-hidden {
+    display: none !important;
+}
+.tx-hidden-checkbox .tx-checkbox{
+    display: none !important;
+    /*visibility: hidden!important;*/
+}
+.tx-leaf-header .tx-checkbox{
+    margin-left: var(--size-btn);
+}
+.tx-header {
+    display: flex;
+}
+.tx-leaf-header {
+    margin: 2px 0;
+}
+
+.tx-hidden-checkbox .tx-leaf:not(.tx-node__checked) {
+    display: none !important;
+}
+
+@media( min-width: 800px ) {
+  :root {
+    --size-btn: 30px;
+  }
+  .tx {
+    font-size: 12px;
+  }
+}

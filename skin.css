@@ -1,0 +1,129 @@
+.containers {
+  display: flex;
+}
+.containers > div {
+  width: 400px;
+  background: white;
+}
+
+#fleet-list-tree li.tx-node .tx-fleet-header {
+  background: #f0f0f0;
+}
+#fleet-list-tree li.tx-node {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+#fleet-list-tree li.tx-node:only-child {
+  margin-bottom: 6px;
+}
+
+#fleet-list-tree li.tx-node.selected > ul.tx-nodes {
+ border-color: #a7e9ff !important;
+}
+#fleet-list-tree li.tx-node.selected .tx-fleet-header.selected {
+  background: #a7e9ff !important;
+}
+/*#fleet-list-tree li.tx-node.selected .tx-leaf-card.selected {
+  border: 1px solid #89deff !important;
+  background: rgba(97, 242, 244, 0.1) !important;
+}*/
+#fleet-list-tree li.tx-node.selected .tx-leaf-card:hover {
+  /*border: 1px solid #89deff !important;*/
+  background: rgba(97, 242, 244, 0.05) !important;
+}
+
+#fleet-list-tree ul.tx-nodes {
+  border-left: 3px solid #f0f0f0;
+  border-bottom: 3px solid #f0f0f0;
+  padding-left: 8px;
+  padding-left: 8px;
+  /*margin-bottom: 5px;*/
+}
+#fleet-list-tree > .tx > ul.tx-nodes {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.custom-card {
+  vertical-align: middle;
+  background: white;
+  border-radius: 6px;
+  border-bottom: 1px solid #FAFAFA;
+  /*border-radius: 6px;*/
+  min-width: 200px;
+  display: inline-flex;
+  /*flex-direction: column;*/
+  padding: 4px;
+  flex: 1;
+  border: 1px solid #ececec;
+  display: flex;
+}
+.custom-card.selected {
+  border: 1px solid #7da3c5;
+  background: #f4fcff;
+}
+.custom-fleet {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: black;
+  flex: 1;
+}
+.custom-fleet > *{
+  padding-left: 6px;
+  line-height: 30px;
+}
+
+.custom-fleet {
+  flex: 1;
+  min-width: 0px;
+}
+.custom-fleet span {
+  flex: 1;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+footer button{
+  width: 60px;
+  height: 30px;
+}
+.circle{
+  background: green;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  background: green;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+}
+.badge {
+  background: #ddd;
+  display: inline-block;
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+}
+
+.searchClue{
+  display: none;
+}
+.data{
+  padding-left: 10px;
+  flex: 1;
+}
+.invisible{
+  visibility: hidden;
+}
+.fa-info-circle {
+  color: #dfdfdf;
+}
+.fa-info-circle:hover{
+  color:#7da3c5;
+}
