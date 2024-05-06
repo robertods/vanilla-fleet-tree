@@ -13,10 +13,10 @@ const treeData = {
     {"id":"3","name":"Main","parent":"2"},
   ],
   "assets":[
-    {"id_vehiculo":"5948","name":"0-3366012","parent":"1","patente":"0-3366012","model":"","icon":"tren.png"},
-    {"id_vehiculo":"5949","name":"0-3366019","parent":"2","patente":"0-3366019","model":"maquina","icon":"tren.png"},
-    {"id_vehiculo":"5950","name":"0-3366045","parent":"3","patente":"0-3366045","model":"maquina","icon":"tren.png"},
-    {"id_vehiculo":"5951","name":"0-3366053","parent":"4","patente":"0-3366053","model":"maquina","icon":"tren.png"},
+    {"id_vehiculo":"5948","name":"0-3366012","parent":"1","patente":"0-3366012","model":"MACHINE","icon":"tren.png"},
+    {"id_vehiculo":"5949","name":"0-3366019","parent":"2","patente":"0-3366019","model":"MACHINE","icon":"tren.png"},
+    {"id_vehiculo":"5950","name":"0-3366045","parent":"3","patente":"0-3366045","model":"MACHINE","icon":"tren.png"},
+    {"id_vehiculo":"5951","name":"0-3366053","parent":"4","patente":"0-3366053","model":"MACHINE","icon":"tren.png"},
   ]
 }
 
@@ -93,7 +93,7 @@ function generateTree(raw) {
     animation: false,
     checks: false,
     templates: {
-      basico: (node) => `
+      BASIC: (node) => `
         <div class="searchClue">${node.text.toLowerCase()} ${node.id.toLowerCase()}</div>
         <div class="data">
           <b>${node.id}</b>
@@ -101,7 +101,7 @@ function generateTree(raw) {
           <b>Último reporte: </b><span>--</span>
         </div>
       `,
-      maquina: (node) => `
+      MACHINE: (node) => `
         <div class="searchClue">${node.text.toLowerCase()} ${node.id.toLowerCase()}</div>
         <div class="circle"><i class="fa fa-car"></i></div>
         <div class="data">
@@ -137,16 +137,30 @@ function generateTree(raw) {
 }
 
 //------------------------------------
-
-window.addEventListener('message', e => {
+const API = 'https://api.twindimension.com/tdata/v1'
+ 
+window.addEventListener('message', async e => {
 
   //console.log("recibiendo de: ", e.origin)
   if(e.origin !== "https://tdata.tesacom.net") {
     return
   }
-
-  //console.log("DATA: ", e.data)
+  debugger;
   const data = JSON.parse(e.data)
-  //document.getElementById("code").innerHTML = data.value
+  console.log("DATA: ", data)
+  const REFRESH_TOKEN = data.value
+  
+  if(data.type === 'INIT'){
+    const r = await fetch(API+'/token', { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ refreshToken: REFRESH_TOKEN })})
+    const ACCESS_TOKEN = await r.json()
+    const devices = await fetchPages(API+'/devices?pageSize=50&page=0', ACCESS_TOKEN)
+    console.log(devices)
+  }
 
 })
+
+async function fetchPages(url, jwt) {
+  const r = await fetch(url, { headers: { 'X-Authorization': 'Bearer ' + jwt } })
+  const devices = await r.json()
+  return devices
+}
