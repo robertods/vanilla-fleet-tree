@@ -12,7 +12,7 @@ const treeData = {
     {"id":"2","name":"Ferry","parent":"1"},
     {"id":"3","name":"Main","parent":"2"},
   ],
-  "assets":[
+  "devices":[
     {"id_vehiculo":"5948","name":"0-3366012","parent":"1","patente":"0-3366012","model":"MACHINE","icon":"tren.png"},
     {"id_vehiculo":"5949","name":"0-3366019","parent":"2","patente":"0-3366019","model":"MACHINE","icon":"tren.png"},
     {"id_vehiculo":"5950","name":"0-3366045","parent":"3","patente":"0-3366045","model":"MACHINE","icon":"tren.png"},
@@ -65,7 +65,7 @@ function generateTree(raw) {
     }
   });
 
-  raw.assets.forEach(r => {
+  raw.devices.forEach(r => {
     let obj;
     obj = {...r};
     obj.id = r.id_vehiculo;
@@ -145,16 +145,39 @@ window.addEventListener('message', async e => {
   if(e.origin !== "https://tdata.tesacom.net") {
     return
   }
-  debugger;
+  
   const data = JSON.parse(e.data)
   console.log("DATA: ", data)
   const REFRESH_TOKEN = data.value
   
   if(data.type === 'INIT'){
-    const r = await fetch(API+'/token', { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ refreshToken: REFRESH_TOKEN })})
-    const ACCESS_TOKEN = await r.json()
-    const devices = await fetchPages(API+'/devices?pageSize=50&page=0', ACCESS_TOKEN)
-    console.log(devices)
+    const r = await fetch(API+'/token', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify({ "refreshToken": REFRESH_TOKEN })
+    })
+    const { token: ACCESS_TOKEN } = await r.json()
+    const { data: rawDevices } = await fetchPages(API+'/devices?pageSize=50&page=0', ACCESS_TOKEN)
+    const { data: rawAssets } = await fetchPages(API+'/assets?pageSize=50&page=0', ACCESS_TOKEN)
+    const devices = rawDevices.map(d => ({
+      id: d.id.id,
+      type: d.deviceProfileId.id,
+      name: d.label || d.name,
+      identifier: d.name,
+      "model":"MACHINE_TD",
+      "icon":"tren.png",
+      "parent":"1",
+    }))
+    const fleets = rawAssets.map(a => ({
+      id: a.id.id,
+      name: a.label || a.name,
+
+    }))
+    const tree = {
+      fleets,
+      devices
+    }
+    console.log(tree)
   }
 
 })
