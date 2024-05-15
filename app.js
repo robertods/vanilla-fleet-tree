@@ -1,11 +1,13 @@
 let FleetTree1;
+//const API = 'https://api.twindimension.com/tdata/v1'
+const API = 'https://tdata.tesacom.net/api'
 
 document.getElementById("btnVisibles").addEventListener("click", e => FleetTree1.toggleChecks() );
 document.getElementById("btnColapsar").addEventListener("click", e => FleetTree1.collapseAll() );
 document.getElementById("btnExpandir").addEventListener("click", e => FleetTree1.expandAll() );
 document.getElementById("fleet-list-tree").innerHTML = '<h1 style="color: rgb(0, 183, 255);text-align:center;"><i class="fa fa-spinner fa-spin"></i> Cargando</h1>';
 
-const treeData = {
+/*const treeData = {
   "fleets":[
     {"id":"1","name":"Organizacion x","parent":null},
     {"id":"4","name":"Outside","parent":null},
@@ -18,15 +20,15 @@ const treeData = {
     {"id_vehiculo":"5950","name":"0-3366045","parent":"3","patente":"0-3366045","model":"MACHINE","icon":"tren.png"},
     {"id_vehiculo":"5951","name":"0-3366053","parent":"4","patente":"0-3366053","model":"MACHINE","icon":"tren.png"},
   ]
-}
+}*/
 
-generateTree(treeData);
+(async () => {
+  const treeData = await appo()
+  generateTree(treeData);
+})()
+
 
 //------------------------------------
-function sendMessage(data) {
-  const widgetData = JSON.stringify(data)
-  window.parent.postMessage(widgetData, '*')
-}
 
 function generateTree(raw) {
     
@@ -120,24 +122,14 @@ function generateTree(raw) {
     values: [tree[0].id],
   });
 
-  document.getElementById("fleet-list-tree").addEventListener("fleet-node-selected", e => {
-    console.log(e.detail)
-  });
-  document.getElementById("fleet-list-tree").addEventListener("leaf-node-selected", e => {
-    if(e.detail.target.classList.contains("fa-info-circle")){
-      console.log("open info for ", e.detail)
-      return 
-    }
-    console.log(e.detail)
-  });
-  //document.getElementById("fleet-list-tree").addEventListener("fleet-rendered", e =>  {
-    //polling();
-    //updateControl = setTimeout(polling, 60000);
-  //});
+  document.getElementById("fleet-list-tree").addEventListener("folder-node-selected", e => sendMessage({ event: "folder-node-selected", ...e.detail}));
+  document.getElementById("fleet-list-tree").addEventListener("leaf-node-selected", e => sendMessage({ event: "leaf-node-selected", ...e.detail}));
+  document.getElementById("fleet-list-tree").addEventListener("tree-rendered", e => sendMessage({ event: "tree-rendered", ...e.detail}));
 }
 
+
+
 //------------------------------------
-const API = 'https://api.twindimension.com/tdata/v1'
  
 window.addEventListener('message', async e => {
 
@@ -148,17 +140,36 @@ window.addEventListener('message', async e => {
   
   const data = JSON.parse(e.data)
   console.log("DATA: ", data)
-  const REFRESH_TOKEN = data.value
+  const REFRESH_TOKEN = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZW5hbnRkZW1vQG1haWwuY29tIiwidXNlcklkIjoiOGM5YjhiOTAtZjYzZi0xMWVkLWI4MzEtZGJiZWQ4ZjQyZjIyIiwic2NvcGVzIjpbIlRFTkFOVF9BRE1JTiJdLCJzZXNzaW9uSWQiOiJjNWRkNDIzYi1hMWViLTRiMDQtYjcwYy00ZWE4MGVhM2Y2MDYiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTcxNTM2NzkwNywiZXhwIjoxNzE1Mzc2OTA3LCJmaXJzdE5hbWUiOiJUZW5hbnQiLCJsYXN0TmFtZSI6IkRlbW8iLCJlbmFibGVkIjp0cnVlLCJpc1B1YmxpYyI6ZmFsc2UsInRlbmFudElkIjoiN2NhOWQxYjAtZjYzZi0xMWVkLWI4MzEtZGJiZWQ4ZjQyZjIyIiwiY3VzdG9tZXJJZCI6IjEzODE0MDAwLTFkZDItMTFiMi04MDgwLTgwODA4MDgwODA4MCJ9.MiP9o1XS3bAZMaq8RnWzlP3upE2aMVKkVaRqTTUUofG3CDYhnH2Noo_IvZz6OKGAFBrSa_lM8vk9NVvTxw9LoA' // data.value
   
   if(data.type === 'INIT'){
-    const r = await fetch(API+'/token', { 
+    const r = await fetch(API+'/auth/token', { 
       method: 'POST', 
       headers: { 'Content-Type': 'application/json' }, 
       body: JSON.stringify({ "refreshToken": REFRESH_TOKEN })
     })
     const { token: ACCESS_TOKEN } = await r.json()
-    const { data: rawDevices } = await fetchPages(API+'/devices?pageSize=50&page=0', ACCESS_TOKEN)
-    const { data: rawAssets } = await fetchPages(API+'/assets?pageSize=50&page=0', ACCESS_TOKEN)
+    const { data: rawNodes } = await fetch(API+'/relations/info', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json', 'X-Authorization': 'Bearer ' + ACCESS_TOKEN }, 
+      body: JSON.stringify({
+        "parameters": {
+          "rootId": "509deba0-f8b1-11ed-b831-dbbed8f42f22",
+          "rootType": "ASSET",
+          "direction": "FROM",
+          "relationTypeGroup": "COMMON",
+          "maxLevel": 10,
+          "fetchLastLevelOnly": false
+        },
+        "filters": [{
+          "relationType": "Contains",
+          "entityTypes": [ "ASSET", "DEVICE" ]
+        }]
+      })
+    })
+    //const { data: rawDevices } = await fetchPages(API+'/tenant/devices?pageSize=50&page=0', ACCESS_TOKEN)
+    //const { data: rawAssets } = await fetchPages(API+'/tenant/assets?pageSize=50&page=0', ACCESS_TOKEN)
+    
     const devices = rawDevices.map(d => ({
       id: d.id.id,
       type: d.deviceProfileId.id,
@@ -171,7 +182,7 @@ window.addEventListener('message', async e => {
     const fleets = rawAssets.map(a => ({
       id: a.id.id,
       name: a.label || a.name,
-
+      ...a
     }))
     const tree = {
       fleets,
@@ -186,4 +197,43 @@ async function fetchPages(url, jwt) {
   const r = await fetch(url, { headers: { 'X-Authorization': 'Bearer ' + jwt } })
   const devices = await r.json()
   return devices
+}
+
+function sendMessage(data) {
+  const widgetData = JSON.stringify(data)
+  window.parent.postMessage(widgetData, '*')
+}
+
+async function appo() {
+  const ACCESS_TOKEN = window.localStorage.getItem('jwt_token')
+    const r = await fetch(API+'/relations/info', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json', 'X-Authorization': 'Bearer ' + ACCESS_TOKEN }, 
+      body: JSON.stringify({
+        "parameters": {
+          "rootId": "509deba0-f8b1-11ed-b831-dbbed8f42f22",
+          "rootType": "ASSET",
+          "direction": "FROM",
+          "relationTypeGroup": "COMMON",
+          "maxLevel": 10,
+          "fetchLastLevelOnly": false
+        },
+        "filters": [{
+          "relationType": "Contains",
+          "entityTypes": [ "ASSET", "DEVICE" ]
+        }]
+      })
+    })
+    const rawNodes = await r.json()
+    const all = rawNodes.map(a => ({ id: a.to.id, name: a.toName, type: a.to.entityType, parent: a.from.id }))
+    const fleets = all.filter(a => a.type === 'ASSET').map(a => ({ ...a, model: "FLEET" })).sort((a, b) => a.parent.localeCompare(b.parent))
+    const devices = all.filter(a => a.type === 'DEVICE').map(a => ({ ...a, model: "MACHINE", icon: "tren.png", identifier: a.name })).sort((a, b) => a.parent.localeCompare(b.parent))
+
+    const tree = {
+      fleets,
+      devices
+    }
+    console.log(tree)
+    return tree
+  
 }

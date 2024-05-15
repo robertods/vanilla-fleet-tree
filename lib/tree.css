@@ -91,7 +91,7 @@
   border: 1px solid #d9d9d9;
   border-radius: 2px;
 }
-.tx .tx-fleet-header .tx-checkbox:before {
+.tx .tx-folder-header .tx-checkbox:before {
   border-color: #AAA;  
 }
 .tx .tx-checkbox:hover:before {

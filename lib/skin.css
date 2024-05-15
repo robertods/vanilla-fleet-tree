@@ -6,7 +6,7 @@
   background: white;
 }
 
-#fleet-list-tree li.tx-node .tx-fleet-header {
+#fleet-list-tree li.tx-node .tx-folder-header {
   background: #f0f0f0;
 }
 #fleet-list-tree li.tx-node {
@@ -20,7 +20,7 @@
 #fleet-list-tree li.tx-node.selected > ul.tx-nodes {
  border-color: #a7e9ff !important;
 }
-#fleet-list-tree li.tx-node.selected .tx-fleet-header.selected {
+#fleet-list-tree li.tx-node.selected .tx-folder-header.selected {
   background: #a7e9ff !important;
 }
 /*#fleet-list-tree li.tx-node.selected .tx-leaf-card.selected {
