@@ -191,8 +191,9 @@
 }
 
 .search-hide{
-  border: 3px dashed rgb(191, 101, 101);
-  opacity: 0.5;
+  /*border: 3px dashed rgb(191, 101, 101);
+  opacity: 0.5;*/
+  display: none;
 }
 
 @media( min-width: 800px ) {

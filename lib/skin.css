@@ -112,8 +112,7 @@ footer button{
 }
 
 .searchClue{
-  /*display: none;*/
-  background: yellow;
+  display: none;
 }
 
 .data{
