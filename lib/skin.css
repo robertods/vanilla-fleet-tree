@@ -112,8 +112,10 @@ footer button{
 }
 
 .searchClue{
-  display: none;
+  /*display: none;*/
+  background: yellow;
 }
+
 .data{
   padding-left: 10px;
   flex: 1;

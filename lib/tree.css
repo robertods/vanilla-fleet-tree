@@ -190,6 +190,11 @@
     display: none !important;
 }
 
+.search-hide{
+  border: 3px dashed rgb(191, 101, 101);
+  opacity: 0.5;
+}
+
 @media( min-width: 800px ) {
   :root {
     --size-btn: 30px;

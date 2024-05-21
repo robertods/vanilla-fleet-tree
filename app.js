@@ -2,31 +2,32 @@ let FleetTree1;
 //const API = 'https://api.twindimension.com/tdata/v1'
 const API = 'https://tdata.tesacom.net/api'
 
-document.getElementById("btnVisibles").addEventListener("click", e => FleetTree1.toggleChecks() );
-document.getElementById("btnColapsar").addEventListener("click", e => FleetTree1.collapseAll() );
-document.getElementById("btnExpandir").addEventListener("click", e => FleetTree1.expandAll() );
+document.getElementById("btnVisibles").addEventListener("click", e => FleetTree1.toggleChecks());
+document.getElementById("btnColapsar").addEventListener("click", e => FleetTree1.collapseAll());
+document.getElementById("btnExpandir").addEventListener("click", e => FleetTree1.expandAll());
 document.getElementById("fleet-list-tree").innerHTML = '<h1 style="color: rgb(0, 183, 255);text-align:center;"><i class="fa fa-spinner fa-spin"></i> Cargando</h1>';
+document.getElementById("txtSearchList").addEventListener("input", e => FleetTree1.filterNodes(e));
 
-/*const treeData = {
+const treeData = {
   "fleets":[
     {"id":"1","name":"Organizacion x","parent":null},
     {"id":"4","name":"Outside","parent":null},
     {"id":"2","name":"Ferry","parent":"1"},
     {"id":"3","name":"Main","parent":"2"},
+    {"id":"5","name":"Black","parent":"1"},
+    {"id":"6","name":"Master","parent":"5"},
   ],
   "devices":[
     {"id_vehiculo":"5948","name":"0-3366012","parent":"1","patente":"0-3366012","model":"MACHINE","icon":"tren.png"},
-    {"id_vehiculo":"5949","name":"0-3366019","parent":"2","patente":"0-3366019","model":"MACHINE","icon":"tren.png"},
-    {"id_vehiculo":"5950","name":"0-3366045","parent":"3","patente":"0-3366045","model":"MACHINE","icon":"tren.png"},
+    {"id_vehiculo":"zx5949","name":"0-3366019","parent":"2","patente":"0-3366019","model":"MACHINE","icon":"tren.png"},
+    {"id_vehiculo":"zx5950","name":"0-3366045","parent":"3","patente":"0-3366045","model":"MACHINE","icon":"tren.png"},
     {"id_vehiculo":"5951","name":"0-3366053","parent":"4","patente":"0-3366053","model":"MACHINE","icon":"tren.png"},
+    {"id_vehiculo":"zx5952","name":"0-3366054","parent":"6","patente":"0-3366054","model":"MACHINE","icon":"tren.png"},
+    {"id_vehiculo":"zx5953","name":"0-3366055","parent":"6","patente":"0-3366055","model":"MACHINE","icon":"tren.png"},
   ]
-}*/
+}
 
-(async () => {
-  const treeData = await appo()
-  generateTree(treeData);
-})()
-
+generateTree(treeData);
 
 //------------------------------------
 
@@ -115,6 +116,7 @@ function generateTree(raw) {
         <div><i class="fa fa-2x fa-info-circle"></i></div>
       `,
       FLEET: node => `
+        <div class="searchClue">${node.text.toLowerCase()}</div>
         <span>${node.text}</span>
       `,
     },
@@ -122,15 +124,15 @@ function generateTree(raw) {
     values: [tree[0].id],
   });
 
-  document.getElementById("fleet-list-tree").addEventListener("folder-node-selected", e => sendMessage({ event: "folder-node-selected", ...e.detail}));
-  document.getElementById("fleet-list-tree").addEventListener("leaf-node-selected", e => sendMessage({ event: "leaf-node-selected", ...e.detail}));
-  document.getElementById("fleet-list-tree").addEventListener("tree-rendered", e => sendMessage({ event: "tree-rendered", ...e.detail}));
+  document.getElementById("fleet-list-tree").addEventListener("folder-node-selected", e => console.log({ event: "folder-node-selected", ...e.detail}));
+  document.getElementById("fleet-list-tree").addEventListener("leaf-node-selected", e => console.log({ event: "leaf-node-selected", ...e.detail}));
+  document.getElementById("fleet-list-tree").addEventListener("tree-rendered", e => console.log({ event: "tree-rendered", ...e.detail}));
 }
 
 
 
 //------------------------------------
- 
+/* 
 window.addEventListener('message', async e => {
 
   //console.log("recibiendo de: ", e.origin)
@@ -237,3 +239,4 @@ async function appo() {
     return tree
   
 }
+*/
