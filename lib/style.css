@@ -139,7 +139,8 @@ p {
   margin: 6px 20px;
   border-radius: 20px;
   border: 1px solid #ccc;
-  height: 26px;
+  height: 30px;
+  padding: 3px 14px;
 }
 
 @media( min-width: 800px) {
