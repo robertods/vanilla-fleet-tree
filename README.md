@@ -38,52 +38,14 @@ self.onInit = function() {
     "device": d => ({ id: d.name, text: d.name, template: 'MACHINE' })
   }
   
-  const templates = {
-    BASIC: (node) => `
-      <div class="searchClue">${node.text.toLowerCase()} ${node.id.toLowerCase()}</div>
-      <div class="data">
-        <b>${node.id}</b>
-        <p style="background:#EEE;">${node.text}</p>
-        <b>Último reporte: </b><span>--</span>
-      </div>
-    `,
-    MACHINE: (node) => `
-      <div class="searchClue">${node.text.toLowerCase()} ${node.id.toLowerCase()}</div>
-      <div class="circle"><i class="fa fa-car"></i></div>
-      <div class="data">
-        <p><b>${node.id}</b></p>
-        <p class="badge">${node.text}</p>
-        <p>Último reporte: <span>--</span></p>
-        <p>Último horómetro <span>--</span></p>
-      </div>
-      <div><i class="fa fa-2x fa-info-circle"></i></div>
-    `,
-    FLEET: node => `
-      <div classs="searchClue">${node.text.toLowerCase()}</div>
-      <span>${node.text}</span>
-    `,
-  }
+  TwinDimensionTree.generate(
+    self.ctx.datasources[0],
+    self.ctx.settings, 
+    mappers,
+    this.ctx.actionsApi
+  );
   
-  const actions = {
-    "folder-node-selected": e => {
-      console.log("folder-node-selected")
-      const descriptors = this.ctx.actionsApi.getActionDescriptors('folderNodeSelected');
-      if (descriptors.length) {
-        this.ctx.actionsApi.handleWidgetAction(e, descriptors[0], e.detail.folder.id, e.detail.folder.text)
-      }
-    },
-    "leaf-node-selected": e => {
-      console.log("leaf-node-selected")
-      const descriptors = this.ctx.actionsApi.getActionDescriptors('leafNodeSelected');
-      if (descriptors.length) {
-        this.ctx.actionsApi.handleWidgetAction(e, descriptors[0], e.detail.leaf.id, e.detail.folder.text)
-      }
-    }
-  }
-
-  let datasource = self.ctx.datasources[0];
-  const treeData = await TwinDimensionTree.getData(datasource);
-  TwinDimensionTree.generate(treeData, mappers, templates, actions);  
+  self.onResize();
 }
 
 self.onDataUpdated = function() {
