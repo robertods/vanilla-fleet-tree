@@ -9,7 +9,7 @@
 
 ## HTML:
 ```html
-<section class="witgetContainer">
+<section class="widgetContainer">
   <header>
     <input type="search" id="txtSearchList">
   </header>

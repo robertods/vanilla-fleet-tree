@@ -4,7 +4,7 @@ html, body {
   margin: 0;
 }
 
-.witgetContainer {
+.widgetContainer {
   width: 100%;
   height: 100%;
   display: flex;
@@ -21,29 +21,29 @@ html, body {
 
 /* ----------------------------------------------- */
 
-.witgetContainer > header {
+.widgetContainer > header {
   flex: 0 0 32px;
   display: flex;
 }
 
-.witgetContainer > section {
+.widgetContainer > section {
   overflow: hidden auto;
   padding: 0 8px;
   flex: 1;
 }
 
-.witgetContainer > footer {
+.widgetContainer > footer {
   flex: 0 0 32px;
 }
 
 /* ----------------------------------------------- */
 
-.witgetContainer > footer button{
+.widgetContainer > footer button{
   width: 60px;
   height: 30px;
 }
 
-.witgetContainer p {
+.widgetContainer p {
   margin: unset!important;
   font-size: unset!important;
   font-weight: unset!important;
@@ -51,7 +51,7 @@ html, body {
   letter-spacing: unset!important;
 }
 
-.witgetContainer .btnIcon {
+.widgetContainer .btnIcon {
   width: 40px;
   height: 40px;
   line-height: 40px;
@@ -59,7 +59,7 @@ html, body {
   color: #AAA;
   cursor: pointer;
 }
-.witgetContainer .btnIcon.btnMin {
+.widgetContainer .btnIcon.btnMin {
   width: 30px;
   height: 30px;
   line-height: 30px;
@@ -75,13 +75,13 @@ html, body {
 }
 
 /* SCROLL BAR */
-.witgetContainer > section::-webkit-scrollbar {
+.widgetContainer > section::-webkit-scrollbar {
   width: 12px;
 } 
-.witgetContainer > section::-webkit-scrollbar-track {
+.widgetContainer > section::-webkit-scrollbar-track {
   background: transparent;
 } 
-.witgetContainer > section::-webkit-scrollbar-thumb {
+.widgetContainer > section::-webkit-scrollbar-thumb {
   background: #cbd2d8;
   border-radius: 6px;
   border: 1px solid white;
