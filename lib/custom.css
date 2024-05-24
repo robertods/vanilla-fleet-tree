@@ -1,0 +1,62 @@
+/* ------------- CUSTOM FOLDER SKIN ------------- */
+
+/*
+#fleet-list-tree li.tx-node.selected > ul.tx-nodes {
+  border-color: #ccc0e2;
+}
+#fleet-list-tree li.tx-node.selected .tx-folder-header.selected {
+  background: #ad8ae2;
+}
+#fleet-list-tree li.tx-node.selected .tx-leaf-card:hover {
+  background: rgba(198, 115, 161, 0.462);
+}
+*/
+
+/* -------------- CUSTOM LEAF SKIN -------------- */
+
+/*
+.custom-card.selected {
+  border: 1px solid #ff009d;
+  background: #f9d3fc;
+}
+
+.custom-fleet {
+  color: green;
+}
+*/
+
+/* ---------------- CARD ELEMENTS ---------------- */
+.custom-card .circle{
+  background: green;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  background: green;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+}
+
+.custom-card .badge {
+  background: #ddd;
+  display: inline-block;
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+}
+
+.custom-card .data{
+  padding-left: 10px;
+  flex: 1;
+}
+
+.custom-card .fa-info-circle {
+  color: #dfdfdf;
+}
+
+.custom-card .fa-info-circle:hover{
+  color:#7da3c5;
+}

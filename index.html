@@ -5,26 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanilla Tree</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="lib/style.css">
   <link rel="stylesheet" href="lib/tree.css">
-  <link rel="stylesheet" href="lib/skin.css">
-  <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+  <link rel="stylesheet" href="lib/custom.css">
+  <link rel="stylesheet" href="lib/widget.css">
   <script src="lib/tree.js"></script>
   <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="containerTree">
-    <section id="fleet-list" class="tab-content selected list">
-      <header>
-        <input type="search" id="txtSearchList">
-      </header>
-      <section id="fleet-list-tree"></section>
-      <footer>
-        <button id="btnColapsar"><i class="fa fa-caret-right"></i> All</button>
-        <button id="btnExpandir"><i class="fa fa-caret-down"></i> All</button>
-        <button id="btnVisibles"><i class="fa fa-eye"></i></button>
-      </footer>
-    </section>
-  </div>
+  <section class="witgetContainer">
+    <header>
+      <input type="search" id="txtSearchList">
+    </header>
+    <section id="fleet-list-tree"></section>
+    <footer>
+      <button id="btnCollapse"><i class="fa fa-caret-right"></i> All</button>
+      <button id="btnExpand"><i class="fa fa-caret-down"></i> All</button>
+      <button id="btnVisibility"><i class="fa fa-eye"></i></button>
+    </footer>
+  </section>
 </body>
 </html>
