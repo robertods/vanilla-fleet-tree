@@ -2,10 +2,10 @@
 
 /*
 #fleet-list-tree li.tx-node.selected > ul.tx-nodes {
-  border-color: #ccc0e2;
+  border-color: #a7e9ff;
 }
 #fleet-list-tree li.tx-node.selected .tx-folder-header.selected {
-  background: #ad8ae2;
+  background: #a7e9ff;
 }
 #fleet-list-tree li.tx-node.selected .tx-leaf-card:hover {
   background: rgba(198, 115, 161, 0.462);

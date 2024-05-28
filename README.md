@@ -11,13 +11,13 @@
 ```html
 <section class="widgetContainer">
   <header>
-    <input type="search" id="txtSearchList">
+    <input type="search" id="txtSearchList" placeholder="🔍 Filter...">
   </header>
   <section id="fleet-list-tree"></section>
   <footer>
-    <button id="btnCollapse"><i class="fa fa-caret-right"></i> All</button>
-    <button id="btnExpand"><i class="fa fa-caret-down"></i> All</button>
-    <button id="btnVisibility"><i class="fa fa-eye"></i></button>
+    <button id="btnCollapse" title="Collapse all"><i class="fa fa-caret-right"></i> All</button>
+    <button id="btnExpand" title="Expand all"><i class="fa fa-caret-down"></i> All</button>
+    <button id="btnVisibility" title="Show/Hide nodes"><i class="fa fa-eye"></i></button>
   </footer>
 </section>
 ```
@@ -29,22 +29,66 @@
 }
 ```
 
+## SCHEMA:
+```json
+{
+  "schema": {
+    "type": "object",
+    "title": "Settings",
+    "properties": {
+      "templateSelector": {
+        "type": "object",
+        "title": "Template selector:",
+        "properties": {
+          "selector": {
+            "title": "Set an attribute",
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "templates": {
+        "type": "array",
+        "title": "Template set",
+        "minItems": 0,
+        "items": {
+          "title": " ",
+          "type": "object",
+          "properties": {
+            "name": {
+              "title": "Template name",
+              "type": "string"
+            },
+            "function": {
+              "title": "Template function for node: f(node)",
+              "type": "string",
+              "default": "return `\r\n<div class=\"search-clue\">\r\n\t${node.text.toLowerCase()} ${node.id.toLowerCase()}\r\n</div>\r\n<div>${node.text}</div>\r\n`;"
+            }
+          }
+        }
+      }
+    }
+  },
+  "form": [
+    "templateSelector",
+    {
+      "key": "templates",
+      "items": [
+        "templates[].name",
+        {
+          "key": "templates[].function",
+          "type": "javascript"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## JAVASCRIPT:
 ```js
-self.onInit = function() {
-  
-  const mappers = {
-    "asset": a => ({ id: a.id, text: a.name, template: 'FLEET'  }),
-    "device": d => ({ id: d.name, text: d.name, template: 'MACHINE' })
-  }
-  
-  TwinDimensionTree.generate(
-    self.ctx.datasources[0],
-    self.ctx.settings, 
-    mappers,
-    this.ctx.actionsApi
-  );
-  
+self.onInit = async function() {
+  TwinDimensionTree.generate(self.ctx);
   self.onResize();
 }
 
@@ -61,7 +105,7 @@ self.actionSources = function() {
       name: 'widget-action.leaf-node-selected',
       multiple: false
     }
-  }
+  };
 }
 
 self.onResize = function() {
@@ -69,4 +113,5 @@ self.onResize = function() {
 
 self.onDestroy = function() {
 }
+
 ```
