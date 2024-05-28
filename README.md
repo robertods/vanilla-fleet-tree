@@ -11,7 +11,7 @@
 ```html
 <section class="widgetContainer">
   <header>
-    <input type="search" id="txtSearchList" placeholder="🔍 Filter...">
+    <input type="search" id="txtSearchList" placeholder=" &#xF002; Search..." style="font-family:Arial, FontAwesome">
   </header>
   <section id="fleet-list-tree"></section>
   <footer>
